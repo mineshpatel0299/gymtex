@@ -1,25 +1,39 @@
 'use client';
 
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Phone, Mail, MapPin, CheckCircle, Star, Sparkles } from 'lucide-react';
+import { Phone, MapPin, CheckCircle, Star, Sparkles } from 'lucide-react';
 
-export default function PunePage() {
+interface CityContentProps {
+    city: string;
+}
+
+export default function CityContent({ city }: CityContentProps) {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         phone: '',
-        city: 'Pune',
+        city: city,
         message: '',
         captcha: ''
     });
 
     const heroRef = useRef(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
     const { scrollYProgress } = useScroll();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
+
+    // Ensure video plays
+    const handleVideoLoad = () => {
+        if (videoRef.current) {
+            videoRef.current.play().catch((error) => {
+                console.log('Video autoplay failed:', error);
+            });
+        }
+    };
 
     return (
         <div className="min-h-screen bg-white text-gray-900 overflow-hidden">
@@ -55,7 +69,6 @@ export default function PunePage() {
 
             <main>
                 {/* Hero Section with Video Background */}
-                {/* Hero Section with Video Background */}
                 <motion.section
                     ref={heroRef}
                     className="relative min-h-screen flex items-center justify-center overflow-hidden"
@@ -63,14 +76,16 @@ export default function PunePage() {
                     {/* Clean Video Background */}
                     <div className="absolute inset-0 w-full h-full">
                         <video
+                            ref={videoRef}
                             autoPlay
                             loop
                             muted
                             playsInline
+                            preload="auto"
+                            onLoadedData={handleVideoLoad}
                             className="w-full h-full object-cover brightness-[0.6]"
                             poster="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070"
                         >
-                            <source src="/gym-flooring.mp4" type="video/mp4" />
                             <source src="/videos/gym-flooring.mp4" type="video/mp4" />
                         </video>
 
@@ -79,7 +94,7 @@ export default function PunePage() {
                     </div>
 
                     {/* Content */}
-                    <div className="relative z-10 max-w-7xl mx-auto px-6 text-center pt-20">
+                    <div className="relative z-10 max-w-7xl mx-auto px-6 text-center pt-32 md:pt-20">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -89,7 +104,7 @@ export default function PunePage() {
                                 initial={{ opacity: 0, letterSpacing: "0.2em" }}
                                 animate={{ opacity: 1, letterSpacing: "0.5em" }}
                                 transition={{ duration: 1, delay: 0.2 }}
-                                className="block text-purple-300 font-bold uppercase tracking-[0.5em] text-sm md:text-base mb-6"
+                                className="block text-purple-300 font-bold uppercase tracking-[0.5em] text-xs md:text-base mb-6 mt-8 md:mt-0"
                             >
                                 Premium Flooring Solutions
                             </motion.span>
@@ -116,7 +131,7 @@ export default function PunePage() {
                                 transition={{ delay: 0.6 }}
                             >
                                 <p className="text-xl md:text-2xl text-white/90 font-light max-w-3xl mx-auto mb-12 leading-relaxed">
-                                    Transforming fitness spaces in <span className="text-purple-300 font-medium">Pune</span> with engineering precision and aesthetic excellence.
+                                    Transforming fitness spaces in <span className="text-purple-300 font-medium">{city}</span> with engineering precision and aesthetic excellence.
                                 </p>
                             </motion.div>
 
@@ -193,7 +208,7 @@ export default function PunePage() {
                                 Premium Gym Flooring <span className="text-[#2b1674]">Projects</span>
                             </h2>
                             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                                Discover our high-quality rubber flooring installations across Pune's top fitness centers
+                                Discover our high-quality rubber flooring installations across {city}&apos;s top fitness centers
                             </p>
                         </motion.div>
 
@@ -203,42 +218,42 @@ export default function PunePage() {
                                 {
                                     url: 'https://res.cloudinary.com/djicxkd9u/image/upload/v1768299315/01_ymew4v.jpg',
                                     title: 'Commercial Gym Setup',
-                                    location: 'Kothrud, Pune'
+                                    location: `Commercial Zone, ${city}`
                                 },
                                 {
                                     url: 'https://res.cloudinary.com/djicxkd9u/image/upload/v1768299315/02_xbdoyr.jpg',
                                     title: 'Premium Rubber Flooring',
-                                    location: 'Koregaon Park, Pune'
+                                    location: `City Center, ${city}`
                                 },
                                 {
                                     url: 'https://res.cloudinary.com/djicxkd9u/image/upload/v1768299314/04_edkzwv.jpg',
                                     title: 'High-Impact Area',
-                                    location: 'Hinjewadi, Pune'
+                                    location: `Fitness District, ${city}`
                                 },
                                 {
                                     url: 'https://res.cloudinary.com/djicxkd9u/image/upload/v1768299314/03_fsxywe.jpg',
                                     title: 'CrossFit Zone',
-                                    location: 'Viman Nagar, Pune'
+                                    location: `Sports Complex, ${city}`
                                 },
                                 {
                                     url: 'https://res.cloudinary.com/djicxkd9u/image/upload/v1768299313/05_1_ucoony.jpg',
                                     title: 'Professional Gym',
-                                    location: 'Baner, Pune'
+                                    location: `Premium Club, ${city}`
                                 },
                                 {
                                     url: 'https://res.cloudinary.com/djicxkd9u/image/upload/v1768299311/09_ecjrct.jpg',
                                     title: 'Fitness Studio',
-                                    location: 'Wakad, Pune'
+                                    location: `Wellness Center, ${city}`
                                 },
                                 {
                                     url: 'https://res.cloudinary.com/djicxkd9u/image/upload/v1768299311/08_1_uhuouo.jpg',
                                     title: 'Cardio Zone',
-                                    location: 'Aundh, Pune'
+                                    location: `Gym Arena, ${city}`
                                 },
                                 {
                                     url: 'https://res.cloudinary.com/djicxkd9u/image/upload/v1768299312/07_goo1c1.jpg',
                                     title: 'Weight Training Area',
-                                    location: 'Magarpatta, Pune'
+                                    location: `Athletic Zone, ${city}`
                                 }
                             ].map((item, i) => (
                                 <motion.div
@@ -328,7 +343,7 @@ export default function PunePage() {
                         >
                             <h3 className="text-3xl font-bold mb-4">Ready to Transform Your Gym?</h3>
                             <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                                Get premium rubber flooring for your fitness center in Pune with expert installation
+                                Get premium rubber flooring for your fitness center in {city} with expert installation
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <motion.a
@@ -401,21 +416,21 @@ export default function PunePage() {
                                 </span>
                             </motion.div>
                             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                                Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2b1674] to-[#4a2b9f]">Gym Flooring Solutions</span> in Pune
+                                Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2b1674] to-[#4a2b9f]">Gym Flooring Solutions</span> in {city}
                             </h2>
                             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                                Discover why Pune's top fitness centers trust Gymtex for their flooring needs
+                                Discover why {city}&apos;s top fitness centers trust Gymtex for their flooring needs
                             </p>
                         </motion.div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {[
-                                { icon: '💎', title: 'Exceptional Durability', desc: 'Rubber flooring is known for its exceptional durability and longevity. It can withstand heavy foot traffic, dropped weights, and the constant movement of gym equipment without showing signs of wear and tear. Perfect for Pune\'s growing fitness industry.', color: 'from-[#2b1674]/10 to-[#2b1674]/5' },
+                                { icon: '💎', title: 'Exceptional Durability', desc: `Rubber flooring is known for its exceptional durability and longevity. It can withstand heavy foot traffic, dropped weights, and the constant movement of gym equipment without showing signs of wear and tear. Perfect for ${city}'s growing fitness industry.`, color: 'from-[#2b1674]/10 to-[#2b1674]/5' },
                                 { icon: '🛡️', title: 'Superior Shock Absorption', desc: 'Rubber flooring offers excellent shock absorption properties, which is crucial in a gym setting. It helps to reduce the impact on joints, muscles, and bones, providing a safer and more comfortable workout experience.', color: 'from-[#3a1d84]/10 to-[#3a1d84]/5' },
-                                { icon: '👟', title: 'Enhanced Slip Resistance', desc: 'Gym floors can become slippery due to sweat or spilled water, especially during Pune\'s humid monsoon season. Rubber flooring is naturally slip-resistant, providing a secure surface for gym-goers to move and exercise without the risk of accidents.', color: 'from-[#4a2b9f]/10 to-[#4a2b9f]/5' },
+                                { icon: '👟', title: 'Enhanced Slip Resistance', desc: `Gym floors can become slippery due to sweat or spilled water. Rubber flooring is naturally slip-resistant, providing a secure surface for gym-goers to move and exercise without the risk of accidents.`, color: 'from-[#4a2b9f]/10 to-[#4a2b9f]/5' },
                                 { icon: '🔇', title: 'Advanced Noise Reduction', desc: 'The use of heavy equipment and weights in a gym can create loud noises. Rubber flooring has excellent sound-absorbing properties, significantly reducing noise levels and creating a quieter and more pleasant environment for everyone.', color: 'from-[#5a39af]/10 to-[#5a39af]/5' },
                                 { icon: '✨', title: 'Effortless Maintenance', desc: 'Rubber flooring is relatively low-maintenance and easy to clean. It can be swept or vacuumed to remove dust and debris, and can also be mopped or wiped down with a mild detergent and water solution.', color: 'from-[#6a47bf]/10 to-[#6a47bf]/5' },
-                                { icon: '🎨', title: 'Custom Design Options', desc: 'We offer customization options to meet your specific needs in Pune. Whether you need custom colors, patterns, or branding elements incorporated into your gym flooring, our team is equipped to bring your vision to life.', color: 'from-[#7a55cf]/10 to-[#7a55cf]/5' },
+                                { icon: '🎨', title: 'Custom Design Options', desc: `We offer customization options to meet your specific needs in ${city}. Whether you need custom colors, patterns, or branding elements incorporated into your gym flooring, our team is equipped to bring your vision to life.`, color: 'from-[#7a55cf]/10 to-[#7a55cf]/5' },
                             ].map((feature, i) => (
                                 <motion.div
                                     key={i}
@@ -555,10 +570,10 @@ export default function PunePage() {
                                 </span>
                             </motion.div>
                             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                                Leading <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2b1674] to-[#4a2b9f]">Gym Flooring Supplier</span> in Pune
+                                Leading <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2b1674] to-[#4a2b9f]">Gym Flooring Supplier</span> in {city}
                             </h2>
                             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                                Comprehensive flooring solutions for Pune's fitness centers
+                                Comprehensive flooring solutions for {city}&apos;s fitness centers
                             </p>
                         </motion.div>
 
@@ -585,7 +600,7 @@ export default function PunePage() {
                                         <h3 className="text-3xl font-bold text-gray-900">Wide Range of Options</h3>
                                     </div>
                                     <p className="text-lg text-gray-700 leading-relaxed">
-                                        Gymtex Flooring offers a wide range of gym flooring options to cater to diverse needs across Pune. Whether you require rubber flooring, PVC flooring, foam flooring, or any other type of gym flooring, we have you covered.
+                                        Gymtex Flooring offers a wide range of gym flooring options to cater to diverse needs across {city}. Whether you require rubber flooring, PVC flooring, foam flooring, or any other type of gym flooring, we have you covered.
                                     </p>
                                 </div>
                             </motion.div>
@@ -603,7 +618,7 @@ export default function PunePage() {
                                 {
                                     icon: '👥',
                                     title: 'Expert Guidance and Support',
-                                    desc: 'Choosing the right gym flooring can be a daunting task. However, with Gymtex Flooring, you don\'t have to navigate the process alone. Our team of experts in Pune is dedicated to providing guidance and support throughout the flooring selection and installation process.',
+                                    desc: `Choosing the right gym flooring can be a daunting task. However, with Gymtex Flooring, you don't have to navigate the process alone. Our team of experts in ${city} is dedicated to providing guidance and support throughout the flooring selection and installation process.`,
                                     gradient: 'from-[#4a2b9f]/10 via-[#5a39af]/5 to-transparent'
                                 }
                             ].map((item, i) => (
@@ -684,30 +699,12 @@ export default function PunePage() {
                                     >
                                         <MapPin size={32} className="text-white" />
                                     </motion.div>
-                                    <h3 className="text-3xl font-bold">Timely Delivery and Installation in Pune</h3>
+                                    <h3 className="text-3xl font-bold">Timely Delivery and Installation in {city}</h3>
                                 </div>
 
                                 <p className="text-lg text-white/90 leading-relaxed mb-8">
-                                    Gymtex Flooring understands the importance of timely delivery and installation for Pune businesses. We strive to deliver our gym flooring products within the agreed-upon timeline, ensuring that your gym project stays on track.
+                                    Gymtex Flooring understands the importance of timely delivery and installation for {city} businesses. We strive to deliver our gym flooring products within the agreed-upon timeline, ensuring that your gym project stays on track.
                                 </p>
-
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                                    {['Kothrud', 'Koregaon Park', 'Hinjewadi', 'Viman Nagar', 'Baner', 'Wakad'].map((area, i) => (
-                                        <motion.div
-                                            key={area}
-                                            initial={{ opacity: 0, scale: 0 }}
-                                            whileInView={{ opacity: 1, scale: 1 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: i * 0.08, type: "spring" }}
-                                            whileHover={{ scale: 1.1, y: -5 }}
-                                            className="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20 hover:bg-white/30 hover:border-white/40 transition-all duration-300 cursor-pointer"
-                                        >
-                                            <p className="text-sm font-semibold text-center flex items-center justify-center gap-2">
-                                                <MapPin size={12} /> {area}
-                                            </p>
-                                        </motion.div>
-                                    ))}
-                                </div>
                             </div>
                         </motion.div>
                     </div>
@@ -761,10 +758,10 @@ export default function PunePage() {
                                 </span>
                             </motion.div>
                             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                                Looking for <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2b1674] to-[#4a2b9f]">Gym Flooring</span> in Pune?
+                                Looking for <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2b1674] to-[#4a2b9f]">Gym Flooring</span> in {city}?
                             </h2>
                             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                                Feel free to ask for details, don't save any questions!
+                                Feel free to ask for details, don&apos;t save any questions!
                             </p>
                         </motion.div>
 
@@ -811,7 +808,7 @@ export default function PunePage() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {[
                                             { id: 'phone', label: 'Phone', type: 'tel', placeholder: 'Enter Your Phone', icon: '📱' },
-                                            { id: 'city', label: 'City', type: 'text', placeholder: 'Pune', value: 'Pune', icon: '📍' }
+                                            { id: 'city', label: 'City', type: 'text', placeholder: city, value: city, icon: '📍' }
                                         ].map((field, i) => (
                                             <motion.div
                                                 key={field.id}
@@ -888,7 +885,7 @@ export default function PunePage() {
                                             Get an Expert Opinion
                                             <Star className="text-[#2b1674] fill-[#2b1674]" size={28} />
                                         </h3>
-                                        <p className="text-gray-600 text-lg">Our Pune team is ready to assist you 24/7</p>
+                                        <p className="text-gray-600 text-lg">Our {city} team is ready to assist you 24/7</p>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -998,7 +995,7 @@ export default function PunePage() {
                         >
                             Ready to Transform Your{' '}
                             <span className="relative inline-block">
-                                <span className="relative z-10">Pune Gym?</span>
+                                <span className="relative z-10">{city} Gym?</span>
                                 <motion.span
                                     className="absolute bottom-2 left-0 right-0 h-3 bg-white/20 -z-10"
                                     initial={{ width: 0 }}
@@ -1016,7 +1013,7 @@ export default function PunePage() {
                             transition={{ delay: 0.2, duration: 0.6 }}
                             className="text-xl md:text-2xl text-white/95 mb-12 leading-relaxed max-w-3xl mx-auto"
                         >
-                            When it comes to gym flooring in Pune, Gymtex Flooring is the trusted manufacturer that offers a wide range of high-quality, durable, and customizable solutions.
+                            When it comes to gym flooring in {city}, Gymtex Flooring is the trusted manufacturer that offers a wide range of high-quality, durable, and customizable solutions.
                         </motion.p>
 
                         {/* CTA Buttons with Stats */}
@@ -1083,6 +1080,8 @@ export default function PunePage() {
                         </motion.div>
                     </div>
                 </motion.section>
+
+
             </main>
 
 

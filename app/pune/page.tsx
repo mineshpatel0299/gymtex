@@ -51,57 +51,10 @@ export default function PunePage() {
                 />
             </div>
 
-            {/* Navbar with Animation */}
-            <motion.nav
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl shadow-sm border-b border-gray-200"
-            >
-                <div className="max-w-7xl mx-auto px-6 h-20 flex items-center">
-                    {/* Logo - Left Aligned */}
-                    <motion.a
-                        href="/"
-                        whileHover={{ scale: 1.05 }}
-                        className="cursor-pointer relative h-16 w-64 flex-shrink-0"
-                    >
-                        <Image
-                            src="https://res.cloudinary.com/djicxkd9u/image/upload/v1768300062/logo_xkjk9k.png"
-                            alt="Gymtex Flooring Logo"
-                            fill
-                            className="object-contain object-left"
-                            priority
-                        />
-                    </motion.a>
-
-                    {/* Nav Links - Centered */}
-                    <div className="flex-1 flex items-center justify-center gap-10">
-                        {[
-                            { label: 'Home', href: 'https://gymtexflooring.com/' },
-                            { label: 'About', href: 'https://gymtexflooring.com/about' },
-                            { label: 'Product', href: 'https://gymtexflooring.com/products' },
-                            { label: 'Gallery', href: 'https://gymtexflooring.com/gallery' }
-                        ].map((item, i) => (
-                            <motion.a
-                                key={item.label}
-                                href={item.href}
-                                initial={{ opacity: 0, y: -20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.1 }}
-                                whileHover={{ scale: 1.1, color: '#2b1674' }}
-                                className="text-base font-bold text-gray-700 transition-colors whitespace-nowrap"
-                            >
-                                {item.label}
-                            </motion.a>
-                        ))}
-                    </div>
-
-                    {/* Right spacer for balance */}
-                    <div className="w-64 flex-shrink-0"></div>
-                </div>
-            </motion.nav>
+            {/* Navbar Removed (Using Global Navbar) */}
 
             <main>
+                {/* Hero Section with Video Background */}
                 {/* Hero Section with Video Background */}
                 <motion.section
                     ref={heroRef}
@@ -114,121 +67,101 @@ export default function PunePage() {
                             loop
                             muted
                             playsInline
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover brightness-[0.6]"
                             poster="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070"
                         >
                             <source src="/gym-flooring.mp4" type="video/mp4" />
                             <source src="/videos/gym-flooring.mp4" type="video/mp4" />
                         </video>
 
-                        {/* Minimal Gradient Overlay - Only for text readability */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
+                        {/* Gradient Overlay for better text contrast */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/60" />
                     </div>
 
-                    {/* Simplified Content */}
-                    <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+                    {/* Content */}
+                    <div className="relative z-10 max-w-7xl mx-auto px-6 text-center pt-20">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <motion.h1
-                                className="text-6xl md:text-8xl font-bold text-white mb-8 leading-[1.1] drop-shadow-2xl"
+                            <motion.span
+                                initial={{ opacity: 0, letterSpacing: "0.2em" }}
+                                animate={{ opacity: 1, letterSpacing: "0.5em" }}
+                                transition={{ duration: 1, delay: 0.2 }}
+                                className="block text-purple-300 font-bold uppercase tracking-[0.5em] text-sm md:text-base mb-6"
                             >
-                                Premium Gym Flooring
-                                <motion.span
-                                    className="block text-5xl md:text-7xl bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent mt-2"
-                                    style={{ backgroundSize: '200% auto' }}
-                                    animate={{
-                                        backgroundPosition: ['0% center', '200% center'],
-                                    }}
-                                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                >
-                                    for Pune
-                                </motion.span>
+                                Premium Flooring Solutions
+                            </motion.span>
+
+                            <motion.h1
+                                className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-white mb-8 leading-[1.1]"
+                            >
+                                Gymtex
+                                <span className="block italic text-gray-300 font-light">
+                                    Flooring
+                                </span>
                             </motion.h1>
 
-                            <motion.p
+                            <motion.div
+                                initial={{ scaleX: 0 }}
+                                animate={{ scaleX: 1 }}
+                                transition={{ duration: 1, delay: 0.5 }}
+                                className="h-px w-32 bg-purple-500 mx-auto mb-10"
+                            />
+
+                            <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ delay: 0.3 }}
-                                className="text-2xl md:text-3xl text-white font-light mb-12 drop-shadow-lg"
+                                transition={{ delay: 0.6 }}
                             >
-                                Durable. Shock-Absorbent. Professional.
-                            </motion.p>
+                                <p className="text-xl md:text-2xl text-white/90 font-light max-w-3xl mx-auto mb-12 leading-relaxed">
+                                    Transforming fitness spaces in <span className="text-purple-300 font-medium">Pune</span> with engineering precision and aesthetic excellence.
+                                </p>
+                            </motion.div>
 
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5 }}
-                                className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+                                transition={{ delay: 0.8 }}
+                                className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
                             >
                                 <motion.a
                                     href="#contact"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="px-12 py-5 bg-[#2b1674] text-white rounded-full font-bold text-xl shadow-2xl hover:shadow-[#2b1674]/50 transition-all flex items-center gap-3 group"
+                                    className="px-10 py-4 bg-white text-black rounded-full font-bold text-lg hover:bg-neutral-200 transition-all flex items-center gap-2"
                                 >
                                     Get Free Quote
-                                    <motion.span
-                                        animate={{ x: [0, 5, 0] }}
-                                        transition={{ duration: 1.5, repeat: Infinity }}
-                                        className="text-2xl"
-                                    >
-                                        →
-                                    </motion.span>
                                 </motion.a>
                                 <motion.a
                                     href="tel:18003070272"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="px-12 py-5 bg-white/20 backdrop-blur-xl border-2 border-white/40 text-white rounded-full font-bold text-xl transition-all hover:bg-white/30 flex items-center gap-3"
+                                    className="px-10 py-4 bg-transparent border border-white/30 backdrop-blur-sm text-white rounded-full font-medium text-lg hover:bg-white/10 transition-all"
                                 >
-                                    <Phone size={24} />
-                                    Call Now
+                                    Call 1800 3070 7272
                                 </motion.a>
                             </motion.div>
 
-                            {/* Compact Stats */}
+                            {/* Minimal Stats */}
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.7 }}
-                                className="flex flex-wrap justify-center gap-8 md:gap-12"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 1 }}
+                                className="flex justify-center gap-12 md:gap-24 border-t border-white/10 pt-10"
                             >
                                 {[
-                                    { number: '500+', label: 'Projects' },
-                                    { number: '15+', label: 'Years' },
-                                    { number: '100%', label: 'Quality' }
+                                    { value: '500+', label: 'Projects Completed' },
+                                    { value: '15+', label: 'Years Experience' },
+                                    { value: '100%', label: 'Satisfaction' }
                                 ].map((stat, i) => (
-                                    <motion.div
-                                        key={i}
-                                        initial={{ opacity: 0, scale: 0 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: 0.8 + i * 0.1 }}
-                                        whileHover={{ scale: 1.1 }}
-                                        className="text-center"
-                                    >
-                                        <div className="text-4xl md:text-5xl font-bold text-white drop-shadow-lg mb-1">{stat.number}</div>
-                                        <div className="text-sm text-white/80 uppercase tracking-wider">{stat.label}</div>
-                                    </motion.div>
+                                    <div key={i} className="text-center">
+                                        <div className="text-2xl md:text-3xl font-display text-white mb-1">{stat.value}</div>
+                                        <div className="text-xs uppercase tracking-widest text-white/50">{stat.label}</div>
+                                    </div>
                                 ))}
                             </motion.div>
-                        </motion.div>
-
-                        {/* Minimal Scroll Indicator */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: [0.4, 1, 0.4], y: [0, 8, 0] }}
-                            transition={{
-                                opacity: { duration: 2, repeat: Infinity },
-                                y: { duration: 2, repeat: Infinity }
-                            }}
-                            className="absolute bottom-8 left-1/2 -translate-x-1/2"
-                        >
-                            <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2">
-                                <div className="w-1 h-2 bg-white/70 rounded-full" />
-                            </div>
                         </motion.div>
                     </div>
                 </motion.section>
@@ -1152,84 +1085,7 @@ export default function PunePage() {
                 </motion.section>
             </main>
 
-            {/* Footer */}
-            <footer className="bg-gray-900 text-white py-12 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10"
-                    >
-                        <div>
-                            <h3 className="text-xl font-bold mb-4 text-[#7c5bbf]">OUR CORPORATE OFFICES</h3>
-                            <div className="space-y-3 text-gray-300">
-                                <p className="leading-relaxed">
-                                    <strong>Address 1:</strong><br />
-                                    A-21, 2nd Floor, Pushpanjali Enclave,<br />
-                                    Pitampura 110034
-                                </p>
-                                <p className="leading-relaxed">
-                                    <strong>Address 2:</strong><br />
-                                    Industrial Area, Libaspur,<br />
-                                    Sub-Tehsil Rai, Sonipat, Haryana-131021
-                                </p>
-                            </div>
-                        </div>
 
-                        <div>
-                            <h3 className="text-xl font-bold mb-4 text-[#7c5bbf]">CONTACT INFORMATION</h3>
-                            <div className="space-y-3 text-gray-300">
-                                <p>
-                                    <strong>Email:</strong><br />
-                                    <a href="mailto:sales@gymtexflooring.com" className="text-[#7c5bbf] hover:text-[#9f7dd4] transition-colors">
-                                        sales@gymtexflooring.com
-                                    </a>
-                                </p>
-                                <p>
-                                    <strong>Toll Free:</strong><br />
-                                    <a href="tel:18003070272" className="text-[#7c5bbf] hover:text-[#9f7dd4] transition-colors">
-                                        1800 3070 7272
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 className="text-xl font-bold mb-4 text-[#7c5bbf]">SERVING PUNE AREAS</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {['Kothrud', 'Koregaon Park', 'Hinjewadi', 'Viman Nagar', 'Baner', 'Wakad', 'Aundh', 'Magarpatta'].map((area, i) => (
-                                    <motion.span
-                                        key={area}
-                                        initial={{ opacity: 0, scale: 0 }}
-                                        whileInView={{ opacity: 1, scale: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: i * 0.05 }}
-                                        whileHover={{ scale: 1.1 }}
-                                        className="px-3 py-1 bg-[#1a0d42]/50 rounded-full text-sm text-gray-300 cursor-pointer"
-                                    >
-                                        {area}
-                                    </motion.span>
-                                ))}
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        className="border-t border-gray-800 pt-8 text-center"
-                    >
-                        <p className="text-gray-400 mb-4">
-                            We're not the only ones <span className="text-[#7c5bbf] font-semibold">excited</span> about Rubber Floorings
-                        </p>
-                        <p className="text-gray-600 text-sm mt-6">
-                            &copy; {new Date().getFullYear()} Gymtex Flooring. All rights reserved. | Serving Pune, Maharashtra with Premium Gym Flooring Solutions
-                        </p>
-                    </motion.div>
-                </div>
-            </footer>
         </div>
     );
 }

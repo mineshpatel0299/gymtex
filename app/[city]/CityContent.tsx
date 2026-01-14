@@ -314,7 +314,8 @@ export default function CityContent({ city }: CityContentProps) {
                                     <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-[#2b1674]/20 to-[#2b1674]/5">
                                         <motion.img
                                             src={item.url}
-                                            alt={item.title}
+                                            alt={`${item.title} - Premium gym flooring installation in ${city} by Gymtex`}
+                                            loading="lazy"
                                             className="w-full h-full object-cover"
                                             whileHover={{ scale: 1.15, rotate: 2 }}
                                             transition={{ duration: 0.7, ease: "easeOut" }}
@@ -961,6 +962,87 @@ export default function CityContent({ city }: CityContentProps) {
                                 </form>
                             </div>
                         </motion.div>
+                    </div>
+                </section>
+
+                {/* FAQ Section for SEO */}
+                <section id="faq" className="py-24 px-6 bg-gray-50 relative overflow-hidden">
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                        <div className="absolute top-0 left-0 w-96 h-96 bg-[#2b1674]/5 rounded-full blur-3xl" />
+                        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#2b1674]/5 rounded-full blur-3xl" />
+                    </div>
+
+                    <div className="max-w-4xl mx-auto relative z-10">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-16"
+                        >
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true }}
+                                className="inline-block mb-6"
+                            >
+                                <span className="text-sm font-bold text-[#2b1674] uppercase tracking-wider bg-[#2b1674]/10 px-6 py-3 rounded-full border-2 border-[#2b1674]/20">
+                                    FAQs
+                                </span>
+                            </motion.div>
+                            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                                Frequently Asked Questions About{' '}
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2b1674] to-[#4a2b9f]">
+                                    Gym Flooring in {city}
+                                </span>
+                            </h2>
+                        </motion.div>
+
+                        <div className="space-y-6">
+                            {[
+                                {
+                                    question: `What is the price of gym flooring in ${city}?`,
+                                    answer: `Gym flooring prices in ${city} range from ₹50 to ₹500 per sq ft depending on the type and thickness. Rubber rolls start from ₹50/sq ft, interlocking tiles from ₹80/sq ft, and premium options go up to ₹500/sq ft. Contact us for a customized quote based on your gym size and requirements.`
+                                },
+                                {
+                                    question: `Do you provide gym flooring installation in ${city}?`,
+                                    answer: `Yes, Gymtex provides complete gym flooring solutions in ${city} including supply, installation guidance, and after-sales support. We deliver across ${city} and nearby areas with professional installation services.`
+                                },
+                                {
+                                    question: `Which gym flooring is best for commercial gyms in ${city}?`,
+                                    answer: `For commercial gyms in ${city}, we recommend 8mm-10mm rubber rolls or interlocking rubber tiles. These provide excellent durability, shock absorption, and are easy to maintain. They can handle heavy equipment and high foot traffic.`
+                                },
+                                {
+                                    question: `How long does gym flooring last?`,
+                                    answer: `Quality rubber gym flooring from Gymtex typically lasts 10-15 years with proper maintenance. We offer a 10-year warranty on most of our products, ensuring your investment is protected.`
+                                },
+                                {
+                                    question: `What types of gym flooring do you offer in ${city}?`,
+                                    answer: `We offer a comprehensive range including rubber gym rolls (4mm-10mm), interlocking rubber tiles, EVA foam mats, sports mats, gym turf, PVC planks, and laminated vinyl tiles. All products are available for delivery in ${city}.`
+                                },
+                                {
+                                    question: `How do I maintain gym flooring?`,
+                                    answer: `Rubber gym flooring is low-maintenance. Regular sweeping or vacuuming removes dust and debris. For deeper cleaning, use a damp mop with mild detergent. Avoid harsh chemicals. We provide complete maintenance guidelines with every purchase.`
+                                }
+                            ].map((faq, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: i * 0.1 }}
+                                    className="group"
+                                >
+                                    <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-[#2b1674]/10 hover:border-[#2b1674]/30">
+                                        <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-[#2b1674] transition-colors">
+                                            {faq.question}
+                                        </h3>
+                                        <p className="text-gray-700 leading-relaxed">
+                                            {faq.answer}
+                                        </p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
                 </section>
 

@@ -1,0 +1,15 @@
+# Gymtex Flooring - robots.txt
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://gymtexflooring.com/sitemap.xml
+Host: https://gymtexflooring.com

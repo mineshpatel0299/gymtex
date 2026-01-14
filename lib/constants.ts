@@ -140,6 +140,7 @@ export const CITY_CATEGORIES = {
 };
 
 export const SEO_KEYWORDS = [
+    // Primary Keywords
     "Gym Mat",
     "Gym roll",
     "Gym tile",
@@ -155,7 +156,28 @@ export const SEO_KEYWORDS = [
     "Gym Vinyl",
     "Pvc planks",
     "LVT - laminated vinyl tiles",
-    "Laminated wooden flooring"
+    "Laminated wooden flooring",
+    // Additional High-Intent Keywords
+    "gym flooring manufacturer",
+    "rubber flooring supplier",
+    "commercial gym flooring",
+    "home gym flooring",
+    "gym flooring installation",
+    "best gym flooring",
+    "gym flooring price",
+    "rubber gym mats for sale",
+    "interlocking gym tiles",
+    "shock absorbing gym floor",
+    "heavy duty gym flooring",
+    "fitness center flooring",
+    "crossfit gym flooring",
+    "weight room flooring",
+    "gym floor covering",
+    "anti slip gym flooring",
+    "noise reducing gym floor",
+    "eco friendly gym flooring",
+    "gym flooring near me",
+    "buy gym flooring online",
 ];
 
 export const GYM_PRODUCTS = [

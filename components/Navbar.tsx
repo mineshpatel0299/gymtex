@@ -21,7 +21,7 @@ export function Navbar() {
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
             <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 max-w-7xl mx-auto">
-                <Link href="/" className="relative h-10 sm:h-12 w-40 sm:w-48 shrink-0 z-50">
+                <a href="https://gymtexflooring.com/" className="relative h-10 sm:h-12 w-40 sm:w-48 shrink-0 z-50">
                     <Image
                         src="https://res.cloudinary.com/djicxkd9u/image/upload/v1768300062/logo_xkjk9k.png"
                         alt="Gymtex Flooring"
@@ -29,7 +29,7 @@ export function Navbar() {
                         className="object-contain object-left"
                         priority
                     />
-                </Link>
+                </a>
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center justify-center gap-8">

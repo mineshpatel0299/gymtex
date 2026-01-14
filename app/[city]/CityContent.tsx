@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Phone, MapPin, CheckCircle, Star, Sparkles } from 'lucide-react';
+import { Phone, MapPin, CheckCircle, Sparkles } from 'lucide-react';
 
 interface CityContentProps {
     city: string;
@@ -15,8 +15,53 @@ export default function CityContent({ city }: CityContentProps) {
         phone: '',
         city: city,
         message: '',
-        captcha: ''
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { id, value } = e.target;
+        setFormData(prev => ({ ...prev, [id]: value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+        setErrorMessage('');
+
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    access_key: 'b97076a5-bad8-4415-9a72-fc753d4c0088',
+                    subject: `New Gym Flooring Inquiry from ${formData.name} - ${formData.city}`,
+                    from_name: 'Gymtex Website',
+                    name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone,
+                    city: formData.city,
+                    message: formData.message,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.message || 'Something went wrong');
+            }
+
+            setSubmitStatus('success');
+            setFormData({ name: '', email: '', phone: '', city: city, message: '' });
+        } catch (error) {
+            setSubmitStatus('error');
+            setErrorMessage(error instanceof Error ? error.message : 'Failed to send message');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     const heroRef = useRef(null);
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -150,12 +195,12 @@ export default function CityContent({ city }: CityContentProps) {
                                     Get Free Quote
                                 </motion.a>
                                 <motion.a
-                                    href="tel:18003070272"
+                                    href="tel:+919540191234"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     className="px-10 py-4 bg-transparent border border-white/30 backdrop-blur-sm text-white rounded-full font-medium text-lg hover:bg-white/10 transition-all"
                                 >
-                                    Call 1800 3070 7272
+                                    Call +91 95401 91234
                                 </motion.a>
                             </motion.div>
 
@@ -355,13 +400,13 @@ export default function CityContent({ city }: CityContentProps) {
                                     Get Free Quote
                                 </motion.a>
                                 <motion.a
-                                    href="tel:18003070272"
+                                    href="tel:+91 95401 91234"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     className="px-10 py-4 bg-transparent border-2 border-white text-white rounded-full font-bold text-lg hover:bg-white/10 transition-all"
                                 >
                                     <Phone size={20} className="inline mr-2" />
-                                    Call 1800 3070 7272
+                                    Call +91 95401 91234
                                 </motion.a>
                             </div>
                         </motion.div>
@@ -777,7 +822,7 @@ export default function CityContent({ city }: CityContentProps) {
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#2b1674]/5 to-transparent rounded-full blur-3xl" />
                                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-[#2b1674]/5 to-transparent rounded-full blur-3xl" />
 
-                                <form className="space-y-6 relative z-10">
+                                <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {[
                                             { id: 'name', label: 'Full Name', type: 'text', placeholder: 'Enter Your Name', icon: '👤' },
@@ -799,6 +844,9 @@ export default function CityContent({ city }: CityContentProps) {
                                                     type={field.type}
                                                     id={field.id}
                                                     placeholder={field.placeholder}
+                                                    value={formData[field.id as keyof typeof formData]}
+                                                    onChange={handleChange}
+                                                    required
                                                     className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-[#2b1674] focus:ring-4 focus:ring-[#2b1674]/10 outline-none transition-all bg-gray-50 focus:bg-white hover:border-[#2b1674]/50"
                                                 />
                                             </motion.div>
@@ -808,7 +856,7 @@ export default function CityContent({ city }: CityContentProps) {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {[
                                             { id: 'phone', label: 'Phone', type: 'tel', placeholder: 'Enter Your Phone', icon: '📱' },
-                                            { id: 'city', label: 'City', type: 'text', placeholder: city, value: city, icon: '📍' }
+                                            { id: 'city', label: 'City', type: 'text', placeholder: city, icon: '📍', readOnly: true }
                                         ].map((field, i) => (
                                             <motion.div
                                                 key={field.id}
@@ -826,7 +874,10 @@ export default function CityContent({ city }: CityContentProps) {
                                                     type={field.type}
                                                     id={field.id}
                                                     placeholder={field.placeholder}
-                                                    defaultValue={field.value}
+                                                    value={formData[field.id as keyof typeof formData]}
+                                                    onChange={handleChange}
+                                                    readOnly={field.readOnly}
+                                                    required
                                                     className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-[#2b1674] focus:ring-4 focus:ring-[#2b1674]/10 outline-none transition-all bg-gray-50 focus:bg-white hover:border-[#2b1674]/50"
                                                 />
                                             </motion.div>
@@ -847,82 +898,67 @@ export default function CityContent({ city }: CityContentProps) {
                                             id="message"
                                             rows={5}
                                             placeholder="Tell us about your gym flooring requirements..."
+                                            value={formData.message}
+                                            onChange={handleChange}
+                                            required
                                             className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-[#2b1674] focus:ring-4 focus:ring-[#2b1674]/10 outline-none transition-all resize-none bg-gray-50 focus:bg-white hover:border-[#2b1674]/50"
                                         ></textarea>
                                     </motion.div>
+
+                                    {/* Success Message */}
+                                    {submitStatus === 'success' && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="p-4 bg-green-50 border-2 border-green-200 rounded-xl text-green-700 text-center font-medium"
+                                        >
+                                            Thank you! Your inquiry has been sent successfully. We&apos;ll get back to you soon.
+                                        </motion.div>
+                                    )}
+
+                                    {/* Error Message */}
+                                    {submitStatus === 'error' && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="p-4 bg-red-50 border-2 border-red-200 rounded-xl text-red-700 text-center font-medium"
+                                        >
+                                            {errorMessage || 'Something went wrong. Please try again.'}
+                                        </motion.div>
+                                    )}
 
                                     <motion.button
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
                                         transition={{ delay: 0.5 }}
-                                        whileHover={{ scale: 1.02, boxShadow: "0 20px 60px rgba(43, 22, 116, 0.3)" }}
-                                        whileTap={{ scale: 0.98 }}
+                                        whileHover={{ scale: isSubmitting ? 1 : 1.02, boxShadow: isSubmitting ? "none" : "0 20px 60px rgba(43, 22, 116, 0.3)" }}
+                                        whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                                         type="submit"
-                                        className="w-full py-5 bg-gradient-to-r from-[#2b1674] to-[#4a2b9f] text-white rounded-xl font-bold text-lg shadow-xl transition-all flex items-center justify-center gap-3 group"
+                                        disabled={isSubmitting}
+                                        className="w-full py-5 bg-gradient-to-r from-[#2b1674] to-[#4a2b9f] text-white rounded-xl font-bold text-lg shadow-xl transition-all flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
                                     >
-                                        Submit Inquiry
-                                        <motion.span
-                                            animate={{ x: [0, 5, 0] }}
-                                            transition={{ duration: 1.5, repeat: Infinity }}
-                                        >
-                                            →
-                                        </motion.span>
+                                        {isSubmitting ? (
+                                            <>
+                                                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Sending...
+                                            </>
+                                        ) : (
+                                            <>
+                                                Submit Inquiry
+                                                <motion.span
+                                                    animate={{ x: [0, 5, 0] }}
+                                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                                >
+                                                    →
+                                                </motion.span>
+                                            </>
+                                        )}
                                     </motion.button>
                                 </form>
-
-                                {/* Contact Info Section */}
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    whileInView={{ opacity: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: 0.6 }}
-                                    className="mt-12 pt-12 border-t-2 border-[#2b1674]/10 relative z-10"
-                                >
-                                    <div className="text-center mb-8">
-                                        <h3 className="text-2xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-3">
-                                            <Star className="text-[#2b1674] fill-[#2b1674]" size={28} />
-                                            Get an Expert Opinion
-                                            <Star className="text-[#2b1674] fill-[#2b1674]" size={28} />
-                                        </h3>
-                                        <p className="text-gray-600 text-lg">Our {city} team is ready to assist you 24/7</p>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <motion.a
-                                            href="tel:18003070272"
-                                            initial={{ opacity: 0, x: -20 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: 0.7 }}
-                                            whileHover={{ scale: 1.05, y: -3 }}
-                                            whileTap={{ scale: 0.95 }}
-                                            className="flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl font-bold shadow-lg hover:shadow-2xl hover:shadow-green-500/30 transition-all"
-                                        >
-                                            <Phone size={22} />
-                                            <div className="text-left">
-                                                <div className="text-xs opacity-90">Toll Free</div>
-                                                <div className="text-lg">1800 3070 7272</div>
-                                            </div>
-                                        </motion.a>
-                                        <motion.a
-                                            href="tel:01140153515"
-                                            initial={{ opacity: 0, x: 20 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: 0.8 }}
-                                            whileHover={{ scale: 1.05, y: -3 }}
-                                            whileTap={{ scale: 0.95 }}
-                                            className="flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-[#2b1674] to-[#4a2b9f] text-white rounded-xl font-bold shadow-lg hover:shadow-2xl hover:shadow-[#2b1674]/30 transition-all"
-                                        >
-                                            <Phone size={22} />
-                                            <div className="text-left">
-                                                <div className="text-xs opacity-90">Direct Line</div>
-                                                <div className="text-lg">011 4015 3515</div>
-                                            </div>
-                                        </motion.a>
-                                    </div>
-                                </motion.div>
                             </div>
                         </motion.div>
                     </div>
